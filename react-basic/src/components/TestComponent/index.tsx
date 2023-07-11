@@ -6,7 +6,7 @@
 
 interface Props {
   arg1: string;
-  arg2: number;
+  arg2?: number;
 }
 
 //! 컴포넌트 선언시 주의사항
@@ -18,7 +18,7 @@ function TestComponent (props: Props) {
 
   //! return 위치에 화면에 출력할 HTML 작성
   //! 컴포넌트 retrun 시 주의사항
-  //! 반드시 하나의 요소만 반환
+  //! 반드시 하나의 요소를 반환
 
   //! return에 작성하는 HTML 내부에서 JavaScript를 사용하고 싶으면
   //! {} 내부에 작성함
@@ -28,6 +28,9 @@ function TestComponent (props: Props) {
       <div>{props.arg1} {props.arg2}</div>
       {/* 주석 */}
       {itemList.map((item) => (<div>{item} 컴포넌트입니다.</div>))}
+      {
+        flag && (<div>TRUE</div>)
+      }      
       {
         flag ? (<div>TRUE</div>) : (<div>FALSE</div>)
       }
