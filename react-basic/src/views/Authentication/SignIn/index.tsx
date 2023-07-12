@@ -1,5 +1,9 @@
 import './style.css';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
+
+//! useState로 상태를 선언하는 경우 : 해당 컴포넌트에서만 상태를 사용할 때
+//! useStore로 상태를 선언하는 경우 : 여러 컴포넌트에서 상태를 사용할 때
+import { signInStore } from '../../../stores';
 
 function Header () {
   return (
@@ -38,15 +42,14 @@ function MainLeftContainer () {
 
 function MainRightContainer () {
 
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-
+  // const [email, setEmail] = useState<string>('');
+  // const [password, setPassword] = useState<string>('');
 
   return (
     <div className="main-right-container">
       <div className="main-right-card">
-        <MainRightCardTop setEmail={setEmail} setPassword={setPassword} />
-        <MainRightCardBottom email={email} password={password} />
+        <MainRightCardTop />
+        <MainRightCardBottom />
       </div>
     </div>
   );
@@ -57,7 +60,10 @@ interface MainRightCardTopProps {
   setPassword: Dispatch<SetStateAction<string>>;
 }
 
-function MainRightCardTop ({ setEmail, setPassword }: MainRightCardTopProps) {
+function MainRightCardTop () {
+
+  const { setEmail, setPassword } = signInStore();
+
   return (
     <div className="main-right-card-top">
       <div className="sign-in-text">로그인</div>
@@ -73,7 +79,7 @@ interface InputBoxProps {
   label: string;
   show: boolean;
   type: string;
-  set: Dispatch<SetStateAction<string>>;
+  set: (arg: string) => void;
 }
 
 function InputBox ({ label, show, type, set }: InputBoxProps) {
@@ -96,7 +102,9 @@ interface MainRightCardBottomProps {
   password: string;
 }
 
-function MainRightCardBottom ({ email, password }: MainRightCardBottomProps) {
+function MainRightCardBottom () {
+
+  const { email, password } = signInStore();
   
   const onSignInButtonHandler = () => {
     alert(`email : ${email}, password : ${password}`);
@@ -106,7 +114,7 @@ function MainRightCardBottom ({ email, password }: MainRightCardBottomProps) {
     <div className="main-right-card-bottom">
       <button className="sing-in-button" onClick={onSignInButtonHandler}>로그인</button>
       <div className="sign-up-description">
-        신규 사용자이신가요? <a href="#" className="emphasis">회원가입</a>
+        신규 사용자이신가요? <a href="./sign-up" className="emphasis">회원가입</a>
       </div>
     </div>
   );
